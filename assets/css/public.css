@@ -1,0 +1,65 @@
+.wce-embed-iframe-to-play-with {
+	display: none;
+}
+
+.wce-embed-product-code {
+	display: none;
+}
+
+.wce-embed-instructions {
+	padding:6px 0 0 0;	
+	margin:4px 0 8px 0;
+}
+
+.wce-embed-product-code.visible {
+	display: block;
+}
+
+.wce-embed-product-code textarea {
+	width: 100%;
+	min-height: 150px;
+}
+
+.wce-embed-advanced {
+	margin:4px 0 8px;
+	cursor: pointer;
+}
+.wce-embed-advanced:after {
+	content: "▲";	
+}
+.wce-embed-advanced.closed:after {
+	content: "▼";
+}
+
+.wce-embed-product-options {
+	display:none;
+	padding:8px 0 8px 0;
+	border-bottom:1px dashed #dddddd;	
+}
+
+.wce-embed-product-options.visible {
+	display: block;
+}
+
+.wce-embed-product-options .group-title {
+	font-size:12px;
+	line-height:14px;
+	background-color:#ffffff;
+	position:absolute;
+	margin:-22px auto 0 auto;
+	padding:2px 6px 2px 0px;
+	text-align:center;
+}
+
+.wce-embed-product-options-size,
+.wce-embed-product-options-display {
+	
+	border-top:1px solid #999999;
+	padding:12px 0 8px 0;
+	margin:8px 0 8px 0;
+}
+
+.wce-embed-product-options-size #size-width,
+.wce-embed-product-options-size #size-height {
+	width:64px;	
+}

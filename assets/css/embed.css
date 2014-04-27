@@ -1,0 +1,83 @@
+html {
+	overflow-y: hidden;
+	border: 1px solid #000;
+	background: transparent;
+}
+
+body {
+	background: transparent;
+}
+
+.woocommerce.woocommerce-embed  div.product div.images {
+	float: none;
+	text-align: center;
+}
+
+
+/**
+ * GENERAL
+ */
+.woocommerce.woocommerce-page.woocommerce-embed div.product div.images img {
+	height: 100%;
+	width: auto;
+	max-width: 100%;
+}
+
+.woocommerce.woocommerce-embed .product .summary { 
+	float: none;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.woocommerce.woocommerce-embed div.product .button {
+	margin: 0 0 10px;
+}
+
+
+/**
+ * SMALL
+ */
+ .woocommerce.woocommerce-page.woocommerce-embed.embed-size-small div.product div.images {
+ 	margin: 0 0 1em;
+ }
+.woocommerce.woocommerce-page.woocommerce-embed.embed-size-small div.product div.images img {
+	max-height: 150px;
+}
+
+.woocommerce.woocommerce-page.woocommerce-embed.embed-size-small div.product .product_title {
+	font-size: 20px;
+}
+
+
+/**
+ * MEDIUM
+ */
+ .woocommerce.woocommerce-page.woocommerce-embed.embed-size-medium div.product div.images {
+ 	margin: 0 0 1em;
+ }
+.woocommerce.woocommerce-page.woocommerce-embed.embed-size-medium div.product div.images img {
+	max-height: 225px;
+}
+
+.woocommerce.woocommerce-page.woocommerce-embed.embed-size-medium div.product .product_title {
+	font-size: 26px;
+}
+
+
+/**
+ * LARGE
+ */
+ .woocommerce.woocommerce-page.woocommerce-embed.embed-size-large div.product div.images {
+ 	margin: 0 0 1em;
+ }
+.woocommerce.woocommerce-page.woocommerce-embed.embed-size-large div.product div.images img {
+	max-height: 300px;
+}
+
+.woocommerce.woocommerce-page.woocommerce-embed.embed-size-large div.product .product_title {
+	font-size: 32px;
+}
+
+.woocommerce.woocommerce-page.woocommerce-embed.embed-size-large div.product .price {
+	font-size: 1.5em;
+}

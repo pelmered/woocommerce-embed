@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The WordPress Plugin Boilerplate.
  *
@@ -18,30 +19,39 @@
  * Version:           1.0.0
  * Author:            @TODO
  * Author URI:        @TODO
- * Text Domain:       wc-embed-locale
+ * Text Domain:       wc-embed
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
  * GitHub Plugin URI: https://github.com/<owner>/<repo>
  * WordPress-Plugin-Boilerplate: v2.6.1
  */
-
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if (!defined('WPINC'))
+{
+    die;
 }
 
-/*----------------------------------------------------------------------------*
- * Public-Facing Functionality
- *----------------------------------------------------------------------------*/
+define('WP_EMBED_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('WP_EMBED_PLUGIN_URL', plugins_url('', __FILE__) . '/');
+define('WP_EMBED_PLUGIN_NAME', untrailingslashit(plugin_basename(__FILE__)));
 
-/*
- * @TODO:
- *
- * - replace `class-plugin-name.php` with the name of the plugin's class file
- *
- */
-require_once( plugin_dir_path( __FILE__ ) . 'inludes/class-wc-embed.php' );
+if (!class_exists('WC_Pricefiles'))
+{
+    require_once( WP_EMBED_PLUGIN_PATH . 'includes/class-wc-embed.php' );
+
+    global $wc_embed;
+
+    $wc_embed = WC_Embed::get_instance();
+
+
+    // Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
+    register_activation_hook(__FILE__, array($wc_embed, 'activate'));
+    //Deletes all data if plugin deactivated
+    register_deactivation_hook(__FILE__, array($wc_embed, 'deactivate'));
+
+    add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($wc_embed, 'action_links'));
+}
 
 /*
  * Register hooks that are fired when the plugin is activated or deactivated.
@@ -52,8 +62,8 @@ require_once( plugin_dir_path( __FILE__ ) . 'inludes/class-wc-embed.php' );
  * - replace WC_Embed with the name of the class defined in
  *   `class-plugin-name.php`
  */
-register_activation_hook( __FILE__, array( 'WC_Embed', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'WC_Embed', 'deactivate' ) );
+register_activation_hook(__FILE__, array('WC_Embed', 'activate'));
+register_deactivation_hook(__FILE__, array('WC_Embed', 'deactivate'));
 
 /*
  * @TODO:
@@ -61,7 +71,7 @@ register_deactivation_hook( __FILE__, array( 'WC_Embed', 'deactivate' ) );
  * - replace WC_Embed with the name of the class defined in
  *   `class-plugin-name.php`
  */
-add_action( 'plugins_loaded', array( 'WC_Embed', 'get_instance' ) );
+add_action('plugins_loaded', array('WC_Embed', 'get_instance'));
 
 /*----------------------------------------------------------------------------*
  * Dashboard and Administrative Functionality
@@ -83,9 +93,11 @@ add_action( 'plugins_loaded', array( 'WC_Embed', 'get_instance' ) );
  *
  * The code below is intended to to give the lightest footprint possible.
  */
+/*
 if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-wc-embed-admin.php' );
-	add_action( 'plugins_loaded', array( 'WC_Embed_Admin', 'get_instance' ) );
+	//require_once( plugin_dir_path( __FILE__ ) . 'admin/class-wc-embed-admin.php' );
+	//add_action( 'plugins_loaded', array( 'WC_Embed_Admin', 'get_instance' ) );
 
 }
+*/

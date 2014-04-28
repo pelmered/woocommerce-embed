@@ -104,17 +104,25 @@ class WC_Embed
         //if( is_product() )
         //{
 
+        /*
+        $current_user = wp_get_current_user();
+        //$current_user->roles;
+        $this->plugin_options['product_button_display_for'];
+        */
         
-        if( !empty($this->plugin_options['cart_button_display']) )
-        {
+        //if( !empty($this->plugin_options['cart_button_display']))
+        //{
             add_action('woocommerce_share', array($this, 'display_product_embed_button'));        
-        }
+        //}
+        
         //}
 
-        if( !empty($this->plugin_options['cart_button_display']) )
-        {
+        //if( !empty($this->plugin_options['cart_button_display']) )
+        //{
             add_action('woocommerce_after_cart_contents', array($this, 'display_cart_embed_button'));
-        }        
+        //}
+        
+        
         $this->template_hooks();
     }
 
@@ -138,6 +146,15 @@ class WC_Embed
         add_action('woocommerce_embed_after_single_product', function($params = array()) {
             $this->get_plugin_template('single-embed/after.php', $params);
         });
+
+        
+        add_action('woocommerce_embed_before_loop', function($params = array()) {
+            $this->get_plugin_template('loop-embed/before-loop.php', $params);
+        });
+        add_action('woocommerce_embed_after_loop', function($params = array()) {
+            $this->get_plugin_template('loop-embed/after-loop.php', $params);
+        });
+
         
     }
 
@@ -404,7 +421,7 @@ class WC_Embed
      */
     public function display_product_embed_button()
     {
-        $this->get_plugin_template('embed-button.php');
+        $this->get_plugin_template('embed-product-button.php');
     }
     public function display_cart_embed_button()
     {
@@ -483,6 +500,26 @@ class WC_Embed
             die('Error: no product');
         }
         die();
+    }
+    
+    
+    
+    /**
+     * action_links function.
+     *
+     * @access public
+     * @param mixed $links
+     * @return void
+     */
+    public function action_links($links)
+    {
+
+        $plugin_links = array(
+            '<a href="' . admin_url('admin.php?page=wc-embed') . '">' . __('Settings', $this->plugin_slug) . '</a>',
+            '<a href="https://wordpress.org/plugins/woocommerce-embed/">' . __('Info & Support', $this->plugin_slug) . '</a>',
+        );
+
+        return array_merge($plugin_links, $links);
     }
 
 }

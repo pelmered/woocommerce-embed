@@ -1,6 +1,5 @@
-html {
+html.woocommerce-embed {
 	overflow-y: hidden;
-	border: 1px solid #000;
 	background: transparent;
 }
 
@@ -80,4 +79,22 @@ body {
 
 .woocommerce.woocommerce-page.woocommerce-embed.embed-size-large div.product .price {
 	font-size: 1.5em;
+}
+
+
+/**
+ * CART EMBED
+ */
+.woocommerce-embed ul.products li.product {
+	width: 23%;
+	margin: 0 1%;
+	clear: none;
+}
+
+.woocommerce-embed ul.products li.product:nth-child(2n) {
+	float: left;
+}
+
+.woocommerce-embed ul.products li.product h3 {
+	height: 50px;
 }

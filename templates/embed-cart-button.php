@@ -8,7 +8,7 @@
 global $woocommerce, $wc_embed;
 ?>
 <button class="wce-embed-product-button">
-	<?php _e("Embed product", "wc-embed"); ?>
+	<?php _e("Embed products", "wc-embed"); ?>
 </button>
 <div class="wce-embed-product-code">
 	<p class="wce-embed-instructions">

@@ -24,15 +24,15 @@
 	<div class="wce-embed-product-options">	
 		<div class="wce-embed-product-options-size">
 	        <span class="group-title"><?php _e("Embed size options"); ?></span>
-			<input type="radio" name="size" value="small" data-width="400" data-height="300" id="size-small">
+			<input type="radio" name="size" value="small" data-width="150" data-height="450" id="size-small">
 			<label for="size-small">
 				<?php _e("Small", "wc-embed"); ?>
 			</label><br />
-			<input type="radio" name="size" value="medium" data-width="600" data-height="450" id="size-medium" checked>
+			<input type="radio" name="size" value="medium" data-width="225" data-height="600" id="size-medium" checked>
 			<label for="size-medium">
 				<?php _e("Medium", "wc-embed"); ?>
 			</label><br />
-			<input type="radio" name="size" value="large" data-width="800" data-height="600" id="size-large">
+			<input type="radio" name="size" value="large" data-width="300" data-height="800" id="size-large">
 			<label for="size-large">
 				<?php _e("Large", "wc-embed"); ?>
 			</label><br />

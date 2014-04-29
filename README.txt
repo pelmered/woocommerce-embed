@@ -19,7 +19,7 @@ This plugin is primarily intended to be used in conjunction with marketing of th
 and to help affiliates display the products in a better way in affiliate programs(affiliates integration is coming soon).
 
 This plugin was the winning entry at the hackaton as WordCamp Norköping 2014. 
-We want to thank the envent sponsors Aftonbladet and Knowit for making this possible.
+We want to thank the envent organizers Angry Creative and the sponsors Aftonbladet and Knowit for making this possible.
 
 = Feature summary: =
 *   Choose where the embed buttons should be displayed.
@@ -28,10 +28,6 @@ We want to thank the envent sponsors Aftonbladet and Knowit for making this poss
 *   All templates used is 100% over writable by your theme for 100% customization if you don't think the hooks are enough
 
 == Installation ==
-
-This section describes how to install the plugin and get it working.
-
-e.g.
 
 = Using The WordPress Dashboard =
 

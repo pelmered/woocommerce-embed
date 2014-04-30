@@ -1,4 +1,4 @@
-=== WC Embed ===
+=== WooCommerce Embed ===
 Contributors: Pekz0r, studiogulo, eukaryoter
 Tags: share, embed, products, virability
 Requires at least: 3.5.1

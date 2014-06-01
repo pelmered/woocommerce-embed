@@ -1,5 +1,5 @@
 === WooCommerce Embed ===
-Contributors: pelmered, studiogulo, eukaryoter
+Contributors: pekz0r, studiogulo, eukaryoter
 Tags: share, embed, products, virability
 Requires at least: 3.5.1
 Tested up to: 3.9

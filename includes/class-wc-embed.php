@@ -3,12 +3,14 @@
 /**
  * Plugin Name.
  *
- * @package   Plugin_Name
- * @author    Your Name <email@example.com>
+ * @package   WooCommerce Embed
+ * @author    Peter Elmered <peter@elmered.com>
  * @license   GPL-2.0+
- * @link      http://example.com
- * @copyright 2014 Your Name or Company Name
+ * @link      http://wordpress.org/plugins/woocommerce-embed/
  */
+
+/*
+//Debug
 add_action('all', 'print_the_filter');
 
 function print_the_filter()
@@ -16,9 +18,10 @@ function print_the_filter()
     if (current_filter() != 'gettext')
     {
 
-        //    echo '<p>'.current_filter().'</p>';
+        echo '<p>'.current_filter().'</p>';
     }
 }
+*/
 
 class WC_Embed
 {
@@ -33,14 +36,12 @@ class WC_Embed
     const VERSION = '1.0.0';
 
     /**
-     * @TODO - Rename "plugin-name" to the name your your plugin
-     *
-     * Unique identifier for your plugin.
+     * Unique identifier for the plugin.
      *
      *
      * The variable name is used as the text domain when internationalizing strings
-     * of text. Its value should match the Text Domain file header in the main
-     * plugin file.
+     * of text and as a prefix for option keys etc. Its value should match the Text 
+     * Domain file header in the main plugin file.
      *
      * @since    1.0.0
      *
@@ -69,7 +70,6 @@ class WC_Embed
     private function __construct()
     {
         $this->plugin_options = get_option($this->plugin_slug.'_options');
-
         
         // Load plugin text domain
         add_action('init', array($this, 'load_plugin_textdomain'));
@@ -101,6 +101,9 @@ class WC_Embed
             add_action('get_header', array($this, 'display_embed_view'));
         }
 
+
+	//@TODO: Conditional display positions
+
         //if( is_product() )
         //{
 
@@ -109,7 +112,7 @@ class WC_Embed
         //$current_user->roles;
         $this->plugin_options['product_button_display_for'];
         */
-        
+
         //if( !empty($this->plugin_options['cart_button_display']))
         //{
             add_action('woocommerce_share', array($this, 'display_product_embed_button'));        
@@ -127,10 +130,7 @@ class WC_Embed
     }
 
     function template_hooks()
-    {
-        
-        
-        
+    {        
         add_action('woocommerce_embed_button', function($params = array()) {
             $this->get_plugin_template('single-embed/button.php', $params);
         });
@@ -154,8 +154,6 @@ class WC_Embed
         add_action('woocommerce_embed_after_loop', function($params = array()) {
             $this->get_plugin_template('loop-embed/after-loop.php', $params);
         });
-
-        
     }
 
     /**
@@ -179,7 +177,6 @@ class WC_Embed
      */
     public static function get_instance()
     {
-
         // If the single instance hasn't been set, set it now.
         if (null == self::$instance)
         {
@@ -371,11 +368,11 @@ class WC_Embed
     {
         wp_register_script( $this->plugin_slug . '-plugin-script', WP_EMBED_PLUGIN_URL.'assets/js/public.js', array( 'jquery' ), self::VERSION );
 
-		$iframe_data = [
-			'wce_embed_products' => (is_cart() ? $this->get_cart_ids() : get_the_ID()),
-			'wce_embed' => '1',
-			'wce_embed_site_url' => site_url(),
-		];
+		$iframe_data = array(
+                    'wce_embed_products' => (is_cart() ? $this->get_cart_ids() : get_the_ID()),
+                    'wce_embed' => '1',
+                    'wce_embed_site_url' => site_url(),
+		);
 		wp_localize_script( $this->plugin_slug . '-plugin-script', 'wce_embed_iframe_data', $iframe_data );
 
 		wp_enqueue_script( $this->plugin_slug . '-plugin-script');
@@ -430,70 +427,43 @@ class WC_Embed
 
     function display_embed_view()
     {
-
-        //if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
         global $woocommerce, $woocommerce_loop, $product, $post;
         
         remove_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_thumbnails', 20 );
         remove_action('wp_head', '_admin_bar_bump_cb');
 
         $product_ids = explode(',', filter_input(INPUT_GET, 'wce_embed_products'));
-        //print_r($product_ids);
         $product_count = count($product_ids);
+
+
+	$view_settings => array(
+	    'title'     => filter_input(INPUT_GET, 'wce_show_title'),
+	    'image'     => filter_input(INPUT_GET, 'wce_show_image'),
+	    'price'     => filter_input(INPUT_GET, 'wce_show_price'),
+	    'rating'    => filter_input(INPUT_GET, 'wce_show_rating'),
+	    'desc'      => filter_input(INPUT_GET, 'wce_show_desc'),
+	    'size'      => filter_input(INPUT_GET, 'wce_embed_size'),
+	)
+	
 
         if ($product_count > 1)
         {
             $this->get_plugin_template('loop-embed-view.php', array(
-                'post' => $post,
+                //'post' => $post,
                 'product_ids' => $product_ids,
-                'view_settings' => array(
-                    'title'     => filter_input(INPUT_GET, 'wce_show_title'),
-                    'image'     => filter_input(INPUT_GET, 'wce_show_image'),
-                    'price'     => filter_input(INPUT_GET, 'wce_show_price'),
-                    'rating'    => filter_input(INPUT_GET, 'wce_show_rating'),
-                    'desc'      => filter_input(INPUT_GET, 'wce_show_desc'),
-                    'size'      => filter_input(INPUT_GET, 'wce_embed_size'),
-                )
+                'view_settings' => $view_settings
             ));
-            /*
-            $woocommerce_loop['columns'] = 5;
-
-            woocommerce_product_loop_start();
-            
-            foreach($product_ids AS $pid)
-            {
-                $product = get_product($pid);
-                wc_get_template_part( 'content', 'product' );
-                
-            }
-            
-            woocommerce_product_loop_end();
-            */
         }
         elseif ($product_count == 1)
         {
+	/*
             $product = get_product($product_ids[0]);
             $post = get_post($product_ids[0]);
-            //print_r($product);
-            setup_postdata($post);
-            //wc_get_template_part( 'content', 'single-product' );
-            //woocommerce_reset_loop();
-
+	    */
             $this->get_plugin_template('single-embed-view.php', array(
                 'post' => $post,
-                'view_settings' => array(
-                    'title'     => filter_input(INPUT_GET, 'wce_show_title'),
-                    'image'     => filter_input(INPUT_GET, 'wce_show_image'),
-                    'price'     => filter_input(INPUT_GET, 'wce_show_price'),
-                    'rating'    => filter_input(INPUT_GET, 'wce_show_rating'),
-                    'desc'      => filter_input(INPUT_GET, 'wce_show_desc'),
-                    'size'      => filter_input(INPUT_GET, 'wce_embed_size'),
-                )
+                'view_settings' => $view_settings
             ));
-
-            //woocommerce_reset_loop();
-            //require_once( WP_EMBED_PLUGIN_PATH . 'template/single-embed-view.php' );
         }
         else
         {
@@ -523,3 +493,4 @@ class WC_Embed
     }
 
 }
+

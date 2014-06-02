@@ -115,15 +115,14 @@ function add_options_tab($tabs) {
 
 
 function embed_options_page_settings() {
+    
     settings_fields($this->plugin_slug.'_options');
     do_settings_sections($this->plugin_slug.'_options_section');
     
     submit_button();
 }
 function embed_affiliate_options_page_settings() {
-    settings_fields('pricefile_urls_section');
-    do_settings_sections($this->plugin_slug.'_pricefile_urls_section');
-
+    
     settings_fields($this->plugin_slug.'_options');
     do_settings_sections($this->plugin_slug.'_options_section');
     
@@ -311,71 +310,6 @@ function product_button_visible_for() {
             echo '</label>';
         }
     }
-}
-
-
-/* ------------------------------------------------------------------------ *
- * Field Callbacks
- * ------------------------------------------------------------------------ */
-
-function output_prices_callback($args) {
-
-    //$options = get_option( $this->plugin_slug.'_options', array('output_prices' => '') );
-    $options = $this->plugin_options;
-
-    echo '<select id="output_prices" name="'.$this->plugin_slug.'_options[output_prices]">';
-    echo '<option value="shop"' . selected($options['output_prices'], 'shop', false) . '>' . __('Same as shop', $this->plugin_slug) . '</option>';
-    echo '<option value="including"' . selected($options['output_prices'], 'including', false) . '>' . __('Including VAT', $this->plugin_slug) . '</option>';
-    echo '<option value="excluding"' . selected($options['output_prices'], 'excluding', false) . '>' . __('Excluding VAT', $this->plugin_slug) . '</option>';
-    echo '</select>';
-}
-
-function exclude_products_callback($args) {
-    global $woocommerce;
-
-    $product_ids = (empty($this->plugin_options['exclude_ids']) ?  array() : $this->plugin_options['exclude_ids'] );
-    
-    echo '<select id="woocommerce_pricefiles_exclude_ids" name="'.$this->plugin_slug.'_options[exclude_ids][]" class="ajax_chosen_select_products" multiple="multiple" data-placeholder="' . __('Search for a product&hellip;', 'woocommerce') . '">';
-
-    if ($product_ids) {
-        foreach ($product_ids as $product_id) {
-
-            $product = get_product($product_id);
-            $product_name = woocommerce_get_formatted_product_name($product);
-
-            echo '<option value="' . esc_attr($product_id) . '" selected="selected">' . esc_html($product_name) . '</option>';
-        }
-    }
-
-    echo '</select>';
-    echo '<img class="help_tip" data-tip="' . __('Add any products you want to exlude from the price list here.', 'woocommerce') . '" src="' . $woocommerce->plugin_url() . '/assets/images/help.png" height="16" width="16" />';
-
-    echo '<p>' . $args['description'] . '</p>';
-}
-
-
-function shipping_destination_callback($args) {
-    global $wc_embed, $woocommerce;
-    
-    echo '<p>' . $args['description'] . '</p>';
-
-    echo '<div id="shipping-destination">';
-
-    $shipping_destination_values = $this->plugin_options['shipping_destination'];
-
-    if (!$shipping_destination_values) {
-        global $wc_pricefiles_globals;
-        $shipping_destination_values = $wc_pricefiles_globals['default_shipping_destination'];
-    }
-
-    $shipping_fields = $wc_embed->get_shipping_destination_fields();
-
-    foreach ($shipping_fields as $key => $field) {
-        $field['required'] = 0; 
-        woocommerce_form_field($this->plugin_slug.'_options[shipping_destination][' . $key . ']', $field, $shipping_destination_values[$key]);
-    }
-
-    echo '</div>';
 }
 
 

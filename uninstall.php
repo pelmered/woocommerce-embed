@@ -13,61 +13,53 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+$wc_embed = WC_Embed::get_instance();
+
 if (is_multisite()) {
 	global $wpdb;
 	$blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
-		/* @TODO: delete all transient, options and files you may have added 
-		delete_transient( 'TRANSIENT_NAME' );
-		delete_option('OPTION_NAME');
-		//info: remove custom file directory for main site 
-		$upload_dir = wp_upload_dir();
-		$directory = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . "CUSTOM_DIRECTORY_NAME" . DIRECTORY_SEPARATOR;
-		if (is_dir($directory)) {
-			foreach(glob($directory.'*.*') as $v){
-				unlink($v);
-			}
-			rmdir($directory);
-		}
-		*/
+
+        wc_embed_delete_plugin_data();
+
+        //delete_site_option( $option_name ); 
+        
 	if ($blogs) {
 		foreach($blogs as $blog) {
 			switch_to_blog($blog['blog_id']);
-			/* @TODO: delete all transient, options and files you may have added 
-			delete_transient( 'TRANSIENT_NAME' );
-			delete_option('OPTION_NAME');
-			//info: remove custom file directory for main site 
-			$upload_dir = wp_upload_dir();
-			$directory = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . "CUSTOM_DIRECTORY_NAME" . DIRECTORY_SEPARATOR;
-			if (is_dir($directory)) {
-				foreach(glob($directory.'*.*') as $v){
-					unlink($v);
-				}
-				rmdir($directory);
-			}
-			//info: remove and optimize tables
-			$GLOBALS['wpdb']->query("DROP TABLE `".$GLOBALS['wpdb']->prefix."TABLE_NAME`");
-			$GLOBALS['wpdb']->query("OPTIMIZE TABLE `" .$GLOBALS['wpdb']->prefix."options`");
-			*/
+                        
+                        wc_embed_delete_plugin_data();
+                        
 			restore_current_blog();
 		}
 	}
 }
 else
 {
-	/* @TODO: delete all transient, options and files you may have added 
-	delete_transient( 'TRANSIENT_NAME' );
-	delete_option('OPTION_NAME');
-	//info: remove custom file directory for main site 
-	$upload_dir = wp_upload_dir();
-	$directory = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . "CUSTOM_DIRECTORY_NAME" . DIRECTORY_SEPARATOR;
-	if (is_dir($directory)) {
-		foreach(glob($directory.'*.*') as $v){
-			unlink($v);
-		}
-		rmdir($directory);
-	}
-	//info: remove and optimize tables
-	$GLOBALS['wpdb']->query("DROP TABLE `".$GLOBALS['wpdb']->prefix."TABLE_NAME`");
-	$GLOBALS['wpdb']->query("OPTIMIZE TABLE `" .$GLOBALS['wpdb']->prefix."options`");
-	*/
+    wc_embed_delete_plugin_data();
+}
+
+function wc_embed_delete_plugin_data()
+{
+    global $wc_embed;
+    
+    
+    unregister_setting($wc_embed->plugin_slug.'_options');
+    
+    delete_option('embed_settings');
+    delete_option('affiliate_settings');
+    
+    /* @TODO: delete all transient, options and files you may have added 
+    delete_transient( 'TRANSIENT_NAME' );
+    delete_option('OPTION_NAME');
+    //info: remove custom file directory for main site 
+    $upload_dir = wp_upload_dir();
+    $directory = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . "CUSTOM_DIRECTORY_NAME" . DIRECTORY_SEPARATOR;
+    if (is_dir($directory)) {
+            foreach(glob($directory.'*.*') as $v){
+                    unlink($v);
+            }
+            rmdir($directory);
+    }
+    */
 }
